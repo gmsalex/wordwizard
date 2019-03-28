@@ -12,11 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class AbstractJsonTest {
+public class JsonSupport {
     private ObjectMapper objectMapper;
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-    public AbstractJsonTest() {
+    public JsonSupport() {
         init();
     }
 

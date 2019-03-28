@@ -7,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     @NotNull

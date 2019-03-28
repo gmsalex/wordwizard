@@ -18,7 +18,7 @@ public class JpaEmailBasedUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         return repository.findByEmail(username)
                 .map(WWUserEmailPrincipal::new)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Can't find user '%s'", username)));

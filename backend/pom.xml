@@ -13,6 +13,7 @@
     <properties>
         <source>11</source>
         <target>11</target>
+        <sonar.exclusions>**/Application.java</sonar.exclusions>
     </properties>
     <dependencies>
         <dependency>

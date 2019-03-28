@@ -16,10 +16,7 @@ import java.util.List;
 
 @Configuration
 public class MappingConfiguration {
-    public final static String TO_CLIENT_MAPPER = "toClientMapper";
-    @Qualifier(TO_CLIENT_MAPPER)
-    @Autowired
-    private List<PropertyMap<?, ?>> toClientMapList;
+    public static final String TO_CLIENT_MAPPER = "toClientMapper";
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -32,8 +29,9 @@ public class MappingConfiguration {
         return objectMapper;
     }
 
+    @Autowired
     @Bean(name = TO_CLIENT_MAPPER)
-    public ModelMapper toClientMapper() {
+    public ModelMapper toClientMapper(@Qualifier(TO_CLIENT_MAPPER) List<PropertyMap<?, ?>> toClientMapList) {
         var mapper = new ModelMapper();
         toClientMapList.forEach(mapper::addMappings);
         return mapper;

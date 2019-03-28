@@ -5,7 +5,7 @@ import me.wordwizard.backend.model.entity.user.UserAuthEmail;
 import me.wordwizard.backend.security.auth.userdetails.JpaEmailBasedUserDetailsService;
 import me.wordwizard.backend.security.auth.userdetails.principal.WWUserEmailPrincipal;
 import me.wordwizard.backend.security.auth.userdetails.principal.WWUserPrincipal;
-import me.wordwizard.backend.security.auth.util.AbstractJsonTest;
+import me.wordwizard.backend.security.auth.util.JsonSupport;
 import me.wordwizard.backend.security.auth.util.NoJpaConfiguration;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @NoJpaConfiguration
 @SpringBootTest
-public class WWDaoAuthenticationProviderTest extends AbstractJsonTest {
+public class WWDaoAuthenticationProviderTest extends JsonSupport {
     @MockBean
     private JpaEmailBasedUserDetailsService userDetailsService;
     private WWDaoAuthenticationProvider authenticationProvider;

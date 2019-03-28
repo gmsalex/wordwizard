@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -27,7 +26,7 @@ public class JsonAuthFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         var httpMethod = request.getMethod();
         if (!HttpMethod.POST.name().equals(httpMethod) || !StringUtils.contains(request.getHeader(HttpHeaders.CONTENT_TYPE), MediaType.APPLICATION_JSON_VALUE)) {
             var msg = String.format("This auth filter accepts HTTP POST method and '%s' content type but got '%s' method and '%s' content type",
@@ -41,7 +40,7 @@ public class JsonAuthFilter extends AbstractAuthenticationProcessingFilter {
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
-    private UserAuthEmailRequest getUserCredential(HttpServletRequest request) throws AuthenticationException {
+    private UserAuthEmailRequest getUserCredential(HttpServletRequest request) {
         try (BufferedReader bufferedReader = request.getReader()) {
             return Optional.ofNullable(objectMapper)
                     .orElseThrow(() -> new AuthenticationServiceException("No jackson mapper instance provided"))

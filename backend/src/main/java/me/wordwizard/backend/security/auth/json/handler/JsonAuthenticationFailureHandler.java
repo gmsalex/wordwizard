@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @Component
 public class JsonAuthenticationFailureHandler implements AuthenticationFailureHandler {
-    private final static Logger LOGGER = LoggerFactory.getLogger(JsonAuthenticationFailureHandler.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonAuthenticationFailureHandler.class.getName());
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {

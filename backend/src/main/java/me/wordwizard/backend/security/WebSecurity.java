@@ -38,7 +38,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth, DaoAuthenticationProvider daoAuthenticationProvider) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth, DaoAuthenticationProvider daoAuthenticationProvider) {
         auth.authenticationProvider(daoAuthenticationProvider);
         auth.eraseCredentials(true);
     }

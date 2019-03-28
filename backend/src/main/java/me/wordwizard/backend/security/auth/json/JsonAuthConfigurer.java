@@ -20,7 +20,7 @@ public class JsonAuthConfigurer extends AbstractAuthenticationFilterConfigurer<H
     @Autowired
     private JsonAuthenticationSuccessHandler jsonSuccessHandler;
     @Autowired
-    private JsonAuthenticationFailureHandler defaultFailureHandler;
+    private JsonAuthenticationFailureHandler jsonFailureHandler;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -45,7 +45,7 @@ public class JsonAuthConfigurer extends AbstractAuthenticationFilterConfigurer<H
 
         authFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         authFilter.setAuthenticationSuccessHandler(jsonSuccessHandler);
-        authFilter.setAuthenticationFailureHandler(defaultFailureHandler);
+        authFilter.setAuthenticationFailureHandler(jsonFailureHandler);
 
         Optional.ofNullable(http.getSharedObject(RememberMeServices.class))
                 .ifPresent(authFilter::setRememberMeServices);
