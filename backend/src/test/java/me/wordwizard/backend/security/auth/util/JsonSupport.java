@@ -16,11 +16,7 @@ public class JsonSupport {
     private ObjectMapper objectMapper;
     private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-    public JsonSupport() {
-        init();
-    }
-
-    private void init() {
+    {
         objectMapper = new ObjectMapper();
         objectMapper.configure(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);

@@ -1,0 +1,6 @@
+#!/bin/sh
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+PATH="$SCRIPTPATH/node/":$PATH
+node "$SCRIPTPATH/node/node_modules/npm/bin/npm-cli.js" "$@"
+
