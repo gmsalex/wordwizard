@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.com/gmsalex/wordwizard.svg?branch=master)](https://travis-ci.com/gmsalex/wordwizard)
