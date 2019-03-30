@@ -17,6 +17,7 @@
     <sonar.sources>src</sonar.sources>
     <sonar.typescript.node>${project.basedir}/node/node</sonar.typescript.node>
     <sonar.css.node>${project.basedir}/node/node</sonar.css.node>
+    <sonar.js.node>${project.basedir}/node/node</sonar.js.node>
   </properties>
   <build>
     <plugins>
