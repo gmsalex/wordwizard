@@ -1,0 +1,23 @@
+<div fxFlexFill fxLayout="column">
+  <mat-card [ngClass.gt-sm]="{'card-wide': true}">
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-subtitle>User will be automatically created if you don't have one</mat-card-subtitle>
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" [formGroup]="authForm" fxLayout="column" fxLayoutGap="5px">
+        <mat-form-field>
+          <input formControlName="email" matInput placeholder="Email">
+          <mat-error *ngIf="authForm.get('email').invalid">Wrong email address</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input [type]="'password'" formControlName="password" matInput placeholder="Password">
+          <mat-error *ngIf="authForm.get('password').invalid">Wrong password</mat-error>
+        </mat-form-field>
+        <div fxLayout="column" fxLayoutAlign="center center">
+          <button [disabled]="authForm.invalid" mat-fab type="submit">
+            <mat-icon class="material-icons mat-light">done</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

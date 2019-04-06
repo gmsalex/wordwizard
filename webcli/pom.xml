@@ -19,6 +19,21 @@
     <sonar.css.node>${project.basedir}/node/node</sonar.css.node>
     <sonar.js.node>${project.basedir}/node/node</sonar.js.node>
   </properties>
+  <profiles>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <baseURL>https://wordwizard.me/api</baseURL>
+        <client.buildargument>build-prod</client.buildargument>
+      </properties>
+    </profile>
+    <profile>
+      <id>dev</id>
+      <properties>
+        <baseURL>https://localhost:8443/api</baseURL>
+      </properties>
+    </profile>
+  </profiles>
   <build>
     <plugins>
       <plugin>
@@ -26,44 +41,44 @@
         <artifactId>frontend-maven-plugin</artifactId>
         <configuration>
           <nodeVersion>v10.15.3</nodeVersion>
+          <yarnVersion>v1.15.2</yarnVersion>
         </configuration>
         <executions>
           <execution>
             <id>install node and npm</id>
             <goals>
-              <goal>install-node-and-npm</goal>
+              <goal>install-node-and-yarn</goal>
             </goals>
             <phase>initialize</phase>
           </execution>
           <execution>
             <id>angular-cli</id>
             <goals>
-              <goal>npm</goal>
+              <goal>yarn</goal>
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <arguments>-prefix=${project.basedir}/node install @angular/cli@${angularcli.vesion}
-              </arguments>
+              <arguments>add @angular/cli@${angularcli.vesion}</arguments>
             </configuration>
           </execution>
           <execution>
             <id>web client dependencies</id>
             <goals>
-              <goal>npm</goal>
+              <goal>yarn</goal>
             </goals>
             <phase>generate-resources</phase>
             <configuration>
-              <arguments>-prefix=${project.basedir} install</arguments>
+              <arguments>--prefix=${project.basedir} install</arguments>
             </configuration>
           </execution>
           <execution>
             <id>build</id>
             <goals>
-              <goal>npm</goal>
+              <goal>yarn</goal>
             </goals>
             <phase>compile</phase>
             <configuration>
-              <arguments>--prefix=${project.basedir} run-script ${client.buildargument}</arguments>
+              <arguments>--prefix=${project.basedir} run ${client.buildargument}</arguments>
             </configuration>
           </execution>
         </executions>

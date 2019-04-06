@@ -2,6 +2,7 @@ package me.wordwizard.backend.security.auth.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.wordwizard.backend.security.auth.json.filter.JsonAuthFilter;
+import me.wordwizard.backend.security.auth.json.filter.JsonEmptyFilter;
 import me.wordwizard.backend.security.auth.json.handler.JsonAuthenticationFailureHandler;
 import me.wordwizard.backend.security.auth.json.handler.JsonAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class JsonAuthConfigurer extends AbstractAuthenticationFilterConfigurer<H
     private JsonAuthenticationFailureHandler jsonFailureHandler;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private JsonEmptyFilter jsonEmptyFilter;
 
     public JsonAuthConfigurer() {
         super(new JsonAuthFilter(), null);
@@ -51,6 +54,7 @@ public class JsonAuthConfigurer extends AbstractAuthenticationFilterConfigurer<H
                 .ifPresent(authFilter::setRememberMeServices);
 
         JsonAuthFilter filter = postProcess(authFilter);
+        http.addFilterAfter(jsonEmptyFilter, CsrfFilter.class);
         http.addFilterAfter(filter, CsrfFilter.class);
     }
 }
