@@ -1,4 +1,4 @@
-package me.wordwizard.backend.model.mapper;
+package me.wordwizard.backend.api.mapper;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,10 +13,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.TimeZone;
 
 @Configuration
 public class MappingConfiguration {
-    public static final String TO_CLIENT_MAPPER = "toClientMapper";
+    public static final String TO_API_MAPPER = "toClientMapper";
+    public static final String FROM_API_MAPPER = "fromAPIMapper";
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -26,14 +28,23 @@ public class MappingConfiguration {
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
         return objectMapper;
     }
 
     @Autowired
-    @Bean(name = TO_CLIENT_MAPPER)
-    public ModelMapper toClientMapper(@Qualifier(TO_CLIENT_MAPPER) List<PropertyMap<?, ?>> toClientMapList) {
+    @Bean(name = TO_API_MAPPER)
+    public ModelMapper toApiMapper(@Qualifier(TO_API_MAPPER) List<PropertyMap<?, ?>> configList) {
         var mapper = new ModelMapper();
-        toClientMapList.forEach(mapper::addMappings);
+        configList.forEach(mapper::addMappings);
+        return mapper;
+    }
+
+    @Autowired
+    @Bean(name = FROM_API_MAPPER)
+    public ModelMapper fromApiMapper(@Qualifier(FROM_API_MAPPER) List<PropertyMap<?, ?>> configList) {
+        var mapper = new ModelMapper();
+        configList.forEach(mapper::addMappings);
         return mapper;
     }
 }

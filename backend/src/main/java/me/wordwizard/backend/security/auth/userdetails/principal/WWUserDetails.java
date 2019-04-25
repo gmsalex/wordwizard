@@ -5,4 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public interface WWUserDetails extends UserDetails {
     User getUser();
+
+    default Long getId() {
+        return getUser().getId();
+    }
 }

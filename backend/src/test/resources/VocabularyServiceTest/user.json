@@ -1,0 +1,20 @@
+[
+  {
+    "user": {
+      "id": 100,
+      "name": "name",
+      "active": true
+    },
+    "email": "test@gmail.com",
+    "password": "{bcrypt}$2a$10$y/kWc5EwqvZxJm0wQImRc.L3bj4QSXebqGqe4ZZy8jibLmQ41tSa."
+  },
+  {
+    "user": {
+      "id": 200,
+      "name": "name",
+      "active": true
+    },
+    "email": "noselection@gmail.com",
+    "password": "{bcrypt}$2a$10$y/kWc5EwqvZxJm0wQImRc.L3bj4QSXebqGqe4ZZy8jibLmQ41tSa."
+  }
+]

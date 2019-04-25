@@ -1,7 +1,7 @@
 package me.wordwizard.backend.security.auth.json.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.wordwizard.backend.model.api.auth.UserAuthEmailRequest;
+import me.wordwizard.backend.api.model.auth.UserAuthEmailRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

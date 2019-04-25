@@ -22,7 +22,7 @@ public class SecurityConfigurator {
         var cors = new CorsConfiguration();
         cors.addAllowedHeader("*");
         cors.addAllowedMethod("*");
-        cors.addAllowedOrigin("https://localhost:4200");
+        cors.addAllowedOrigin("http://localhost:4200");
         cors.setAllowCredentials(true);
 
         var source = new UrlBasedCorsConfigurationSource();

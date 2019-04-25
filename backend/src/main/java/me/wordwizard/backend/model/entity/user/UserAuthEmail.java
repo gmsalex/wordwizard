@@ -4,10 +4,7 @@ package me.wordwizard.backend.model.entity.user;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -21,7 +18,9 @@ public class UserAuthEmail {
     @MapsId
     private User user;
     @Email
+    @Basic(optional = false)
     private String email;
     @NotNull
+    @Basic(optional = false)
     private String password;
 }

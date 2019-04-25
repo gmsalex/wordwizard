@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "entry": {
+    "id": 1,
+    "term": "ça va?",
+    "language": "fr",
+    "meta": {
+      "translations": [
+        "how are you?"
+      ]
+    }
+  }
+}

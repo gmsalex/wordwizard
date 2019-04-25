@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "name": "Français",
+  "repetitions": [],
+  "user": {
+    "id": 1,
+    "name": "test",
+    "active": true
+  }
+}
+

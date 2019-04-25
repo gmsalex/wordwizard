@@ -107,8 +107,8 @@
             <artifactId>flyway-spring-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>com.vladmihalcea</groupId>
+            <artifactId>hibernate-types-5</artifactId>
         </dependency>
     </dependencies>
     <build>

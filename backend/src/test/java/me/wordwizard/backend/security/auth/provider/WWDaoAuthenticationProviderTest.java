@@ -3,14 +3,12 @@ package me.wordwizard.backend.security.auth.provider;
 import me.wordwizard.backend.model.entity.user.User;
 import me.wordwizard.backend.model.entity.user.UserAuthEmail;
 import me.wordwizard.backend.security.auth.userdetails.JpaEmailBasedUserDetailsService;
+import me.wordwizard.backend.security.auth.userdetails.principal.WWUserDetails;
 import me.wordwizard.backend.security.auth.userdetails.principal.WWUserEmailPrincipal;
-import me.wordwizard.backend.security.auth.userdetails.principal.WWUserPrincipal;
 import me.wordwizard.backend.security.auth.util.JsonSupport;
-import me.wordwizard.backend.security.auth.util.NoJpaConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -25,8 +23,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@NoJpaConfiguration
-@SpringBootTest
 public class WWDaoAuthenticationProviderTest extends JsonSupport {
     @MockBean
     private JpaEmailBasedUserDetailsService userDetailsService;
@@ -46,8 +42,8 @@ public class WWDaoAuthenticationProviderTest extends JsonSupport {
         var result = authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), "pass"));
         assertThat(result.isAuthenticated()).isTrue();
         assertThat(result.getPrincipal())
-                .isInstanceOf(WWUserPrincipal.class)
-                .extracting(v -> ((WWUserPrincipal) v).getUser())
+                .isInstanceOf(WWUserDetails.class)
+                .extracting(v -> ((WWUserDetails) v).getUser())
                 .extracting(v -> tuple(((User) v).getId(), ((User) v).getName()))
                 .as("User id/name")
                 .isEqualTo(tuple(1L, "name"));

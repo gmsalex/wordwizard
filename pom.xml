@@ -29,8 +29,9 @@
         <frontend.maven.plugin>1.7.5</frontend.maven.plugin>
         <node.vesion>10.15.3</node.vesion>
         <angularcli.vesion>7.3.7</angularcli.vesion>
-
+        <hibernate-types.version>2.4.2</hibernate-types.version>
         <sonar.host.url>http://sonar.wordwizard.me</sonar.host.url>
+
     </properties>
     <profiles>
         <profile>
@@ -111,6 +112,11 @@
                 <artifactId>flyway-spring-test</artifactId>
                 <version>${flyway-test-extension.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.vladmihalcea</groupId>
+                <artifactId>hibernate-types-5</artifactId>
+                <version>${hibernate-types.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

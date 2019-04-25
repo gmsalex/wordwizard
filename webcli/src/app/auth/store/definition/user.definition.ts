@@ -1,4 +1,4 @@
-export interface WWUserPrincipal {
+export interface WWUserDetails {
   readonly name: string
 }
 

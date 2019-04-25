@@ -1,7 +1,6 @@
 package me.wordwizard.backend.security.auth.provider;
 
 import me.wordwizard.backend.security.auth.userdetails.principal.WWUserDetails;
-import me.wordwizard.backend.security.auth.userdetails.principal.WWUserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,8 +24,7 @@ public class WWDaoAuthenticationProvider extends DaoAuthenticationProvider {
             throw new AuthenticationServiceException(String.format("Unsupported type of principal object: '%s'", principal.getClass().getName()));
         }
         var wwDetails = (WWUserDetails) principal;
-        return new UsernamePasswordAuthenticationToken(
-                new WWUserPrincipal(wwDetails),
+        return new UsernamePasswordAuthenticationToken(wwDetails,
                 authentication.getCredentials(),
                 wwDetails.getAuthorities());
     }

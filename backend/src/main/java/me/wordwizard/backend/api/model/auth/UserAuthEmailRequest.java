@@ -1,4 +1,4 @@
-package me.wordwizard.backend.model.api.auth;
+package me.wordwizard.backend.api.model.auth;
 
 import lombok.*;
 
