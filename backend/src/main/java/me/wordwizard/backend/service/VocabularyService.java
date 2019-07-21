@@ -52,12 +52,23 @@ public class VocabularyService {
     }
 
     /**
-     * Get all vocabulary selections owned by currently authenticated user
+     * Get all vocabulary selections owned by the currently authenticated user
      *
      * @return List of vocabulary selections
      */
-    public List<VocabularySelection> getSelectionsList() {
+    public List<VocabularySelection> getSelectionList() {
         return vsRepository.findAllByUserId(authUtil.getUserId());
+    }
+
+
+    /**
+     * Get vocabulary's repetitions
+     *
+     * @param vsId Vocabulary selection Id
+     * @return List of word repetitions
+     */
+    public List<Repetition> getRepetitionList(long vsId) {
+        return repRepository.findBySelectionIdAndSelectionUserIdOrderByCreatedDesc(vsId, authUtil.getUserId());
     }
 
     /**
@@ -69,7 +80,7 @@ public class VocabularyService {
      */
     public VocabularySelection createSelection(@Valid VSCreationDTO dto) {
         vsRepository
-                .findByUserIdAndName(authUtil.getUserId(), dto.getName())
+                .findByNameAndUserId(dto.getName(), authUtil.getUserId())
                 .ifPresent(v -> {
                     throw new IllegalArgumentException("Vocabulary selection already exists " + dto.getName());
                 });
@@ -83,13 +94,13 @@ public class VocabularyService {
     /**
      * Add a new vocabulary entry to the database and associate it with vocabulary selection
      *
-     * @param selectionId Selection id
-     * @param dto         Vocabulary entry data
+     * @param vsId Selection id
+     * @param dto  Vocabulary entry data
      * @return Repetition object
      */
     @Transactional
-    public Repetition addEntry(long selectionId, @Valid VEBaseDTO dto) {
-        var vs = vsRepository.findByIdAndUserId(selectionId, authUtil.getUserId());
+    public Repetition addEntry(long vsId, @Valid VEBaseDTO dto) {
+        var vs = vsRepository.findByIdAndUserId(vsId, authUtil.getUserId());
         var entry = mapper.map(dto, VocabularyEntry.class);
         entry.setUser(authUtil.getUserDetails().getUser());
         entry = veRepository.save(entry);
@@ -100,17 +111,17 @@ public class VocabularyService {
      * Add vocabulary entries to the studying process by associating vocabulary entries
      * with vocabulary selection
      *
-     * @param selectionId Selection id
-     * @param veIds       Vocabulary entry ids
+     * @param vsId  Selection id
+     * @param veIds Vocabulary entry ids
      */
     @Transactional
-    public void addRepetition(long selectionId, @NotNull @Size(min = 1, max = 100) Set<Long> veIds) {
-        var vs = vsRepository.findByIdAndUserId(selectionId, authUtil.getUserId());
+    public void addRepetition(long vsId, @NotNull @Size(min = 1, max = 100) Set<Long> veIds) {
+        var vs = vsRepository.findByIdAndUserId(vsId, authUtil.getUserId());
         var foundVeIds = veRepository.countByIdInAndUserId(veIds, authUtil.getUserId());
         if (veIds.size() != foundVeIds) {
             throw new IllegalArgumentException("Invalid ve ids supplied by user " + authUtil.getUserId());
         }
-        var existingVeIds = repRepository.findByEntryIdIsInAndSelectionId(veIds, selectionId)
+        var existingVeIds = repRepository.findByEntryIdIsInAndSelectionId(veIds, vsId)
                 .map(rep -> rep.getEntry().getId())
                 .collect(Collectors.toSet());
         veIds.stream()

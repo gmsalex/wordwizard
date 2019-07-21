@@ -1,0 +1,16 @@
+<form [formGroup]="form">
+  <mat-form-field>
+    <mat-label>Add translations (multiple translations will added using newline as a separator)</mat-label>
+    <textarea cdkAutosizeMaxRows="10"
+              cdkAutosizeMinRows="2"
+              cdkTextareaAutosize
+              formControlName="translation"
+              matInput></textarea>
+  </mat-form-field>
+  <button (click)="parse()" [disabled]="!form.valid" class="button_with_icon"
+          mat-fab
+          type="button">
+    <mat-icon>add</mat-icon>
+  </button>
+</form>
+

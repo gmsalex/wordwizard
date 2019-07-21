@@ -6,7 +6,9 @@
     "language": "fr",
     "meta": {
       "translations": [
-        "how are you?"
+        {
+          "translation": "how are you?"
+        }
       ]
     }
   }

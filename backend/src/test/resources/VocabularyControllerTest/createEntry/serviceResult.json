@@ -4,11 +4,12 @@
     "id": 1,
     "term": "ça va?",
     "language": "fr",
-    "created": "2019-04-01T00:00:00",
     "repetitions": [],
     "meta": {
       "translations": [
-        "how are you?"
+        {
+          "translation": "how are you?"
+        }
       ]
     }
   },

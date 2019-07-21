@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "created": "2019-04-02T00:00:00",
+    "entry": {
+      "id": 1,
+      "term": "ça va?",
+      "language": "fr",
+      "meta": {
+        "translations": [
+          {
+            "translation": "how are you?"
+          }
+        ]
+      }
+    }
+  }
+]

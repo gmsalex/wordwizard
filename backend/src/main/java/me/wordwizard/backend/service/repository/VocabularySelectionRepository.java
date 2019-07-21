@@ -22,11 +22,11 @@ public interface VocabularySelectionRepository extends JpaRepository<VocabularyS
     /**
      * Get vocabulary selection owned by user and with specified name
      *
-     * @param userId User id
      * @param name   Vocabulary selection name
+     * @param userId User id
      * @return Optional vocabulary selection
      */
-    Optional<VocabularySelection> findByUserIdAndName(@NotNull Long userId, String name);
+    Optional<VocabularySelection> findByNameAndUserId(String name, @NotNull Long userId);
 
     /**
      * Get vocabulary selection owned by user and by id
@@ -36,5 +36,4 @@ public interface VocabularySelectionRepository extends JpaRepository<VocabularyS
      * @return Optional vocabulary selection
      */
     VocabularySelection findByIdAndUserId(@NotNull Long id, Long userId);
-
 }

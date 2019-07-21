@@ -14,7 +14,7 @@ public interface RepetitionRepository extends JpaRepository<Repetition, Long> {
 
     Stream<Repetition> findByIdInAndSelectionUserId(Set<Long> repIds, long userId);
 
-    List<Repetition> findBySelectionId(long selectionId);
+    List<Repetition> findBySelectionIdAndSelectionUserIdOrderByCreatedDesc(long vsId, long userId);
 
     Integer countByEntryId(long veId);
 }

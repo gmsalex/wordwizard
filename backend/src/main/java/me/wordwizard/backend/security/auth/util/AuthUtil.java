@@ -25,7 +25,7 @@ public class AuthUtil {
     /**
      * Get authenticated user id
      *
-     * @return Authenticated users's id
+     * @return Authenticated user's id
      * @throws IllegalArgumentException if no authentication information is available
      */
     public Long getUserId() {

@@ -35,11 +35,17 @@ import {
   MatTooltipModule
 } from "@angular/material";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {ProgressDialog} from "./dialog/progress.dialog";
+import {ProgressService} from "./service/progress.service";
 
 @NgModule({
-  declarations: [],
+  declarations: [ProgressDialog],
+  entryComponents: [ProgressDialog],
+  providers: [ProgressService],
   imports: [
-    CommonModule
+    CommonModule,
+    MatDialogModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatAutocompleteModule,

@@ -1,0 +1,41 @@
+<ng-container *ngIf="vsView$ | async as vsView">
+  <mat-card>
+    <mat-card-title>{{ vsView.vs.name }}</mat-card-title>
+  </mat-card>
+
+  <mat-card [formGroup]="veForm.form">
+    <mat-card-title>Add new words/expressions to the list</mat-card-title>
+    <mat-card-content>
+      <mat-form-field>
+        <input formControlName="term" matInput placeholder="Enter a term"/>
+      </mat-form-field>
+      <add-translation (parseTranslation)="veForm.addTranslation($event)"></add-translation>
+      <div *ngFor="let translation of veForm.translations(); let i = index; let first = first">
+        <span>{{ translation.value }}</span>
+        <button (click)="veForm.removeTranslation(i)" class="button_with_icon" mat-icon-button
+                type="button">
+          <mat-icon class="material-icons">remove_circle_outline</mat-icon>
+        </button>
+        <button (click)="veForm.mergeTranslationToExamples(i)" *ngIf="!first" class="button_with_icon" mat-icon-button
+                type="button">
+          <mat-icon class="material-icons">link</mat-icon>
+        </button>
+        <ul>
+          <li *ngFor="let example of translation.examples; let ti = index">
+            <span>{{ example.value }}</span>
+            <button (click)="translation.removeExample(ti)" class="button_with_icon" mat-icon-button
+                    matTooltip="Remove"
+                    type="button">
+              <mat-icon class="material-icons">remove_circle_outline</mat-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngFor="let repetition of vsView.repetition">
+    <mat-card-title>{{ repetition.id  }} {{ repetition.created }}</mat-card-title>
+  </mat-card>
+</ng-container>
+

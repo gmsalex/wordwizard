@@ -15,7 +15,7 @@ import {LOGIN_ACTION} from "../store/auth.action";
   ]
 })
 export class LoginComponent {
-  constructor(@Inject(SIGN_IN_FORM) public authForm: FormGroup, private store: Store<fromAuth.State>) {
+  constructor(@Inject(SIGN_IN_FORM) public authForm: FormGroup, private store: Store<fromAuth.AppStateAuthModule>) {
   }
 
   onSubmit() {

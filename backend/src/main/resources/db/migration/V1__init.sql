@@ -2,9 +2,10 @@ create sequence hibernate_sequence start 1 increment 1;
 
 create table "Repetition"
 (
-  id           int8 not null,
-  entry_id     int8 not null,
-  selection_id int8 not null,
+  id           int8      not null,
+  entry_id     int8      not null,
+  selection_id int8      not null,
+  created      timestamp not null,
   primary key (id)
 );
 
@@ -28,7 +29,6 @@ create table "VocabularyEntry"
 (
   id       int8       not null,
   meta     jsonb      not null,
-  created  timestamp  not null,
   language varchar(3) not null,
   term     text       not null,
   user_id  int8       not null,

@@ -39,10 +39,10 @@ public class VocabularyController {
     }
 
     @GetMapping(value = "")
-    public List<VocabularySelectionDTO> getList() {
+    public List<VocabularySelectionDTO> getSelectionList() {
         Type token = new TypeToken<List<VocabularySelectionDTO>>() {
         }.getType();
-        return mapper.map(service.getSelectionsList(), token);
+        return mapper.map(service.getSelectionList(), token);
     }
 
     @PostMapping(value = "")
@@ -51,13 +51,20 @@ public class VocabularyController {
     }
 
     @PostMapping(value = "/{id}/entry")
-    public RepetitionDTO createEntry(@PathVariable("id") long selectionId, @RequestBody @NotNull VocabularyEntryDTO entry) {
-        return mapper.map(service.addEntry(selectionId, entry), RepetitionDTO.class);
+    public RepetitionDTO createEntry(@PathVariable("id") long vsId, @RequestBody @NotNull VocabularyEntryDTO entry) {
+        return mapper.map(service.addEntry(vsId, entry), RepetitionDTO.class);
+    }
+
+    @GetMapping(value = "/{id}/repetition")
+    public List<RepetitionDTO> getRepetitionList(@PathVariable("id") long vsId) {
+        Type token = new TypeToken<List<RepetitionDTO>>() {
+        }.getType();
+        return mapper.map(service.getRepetitionList(vsId), token);
     }
 
     @PostMapping(value = "/{id}/repetition")
-    public void addRepetition(@PathVariable("id") long selectionId, @RequestBody @NotNull VEAssociateDTO dto) {
-        service.addRepetition(selectionId, dto.getVeIds());
+    public void addRepetition(@PathVariable("id") long vsId, @RequestBody @NotNull VEAssociateDTO dto) {
+        service.addRepetition(vsId, dto.getVeIds());
     }
 
     @DeleteMapping(value = "/repetition")

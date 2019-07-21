@@ -40,10 +40,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureEmbeddedDatabase
 @AutoConfigureMockMvc
 public class VocabularyControllerTest extends JsonSupport {
-    private final static TypeReference<List<VocabularySelectionDTO>> dtoRef = new TypeReference<List<VocabularySelectionDTO>>() {
+    private final static TypeReference<List<VocabularySelectionDTO>> vsDtoRef = new TypeReference<>() {
     };
-    private final static TypeReference<List<VocabularySelection>> selectionRef = new TypeReference<List<VocabularySelection>>() {
+    private final static TypeReference<List<VocabularySelection>> vsEntityRef = new TypeReference<>() {
     };
+    private final static TypeReference<List<Repetition>> repEntityRef = new TypeReference<>() {
+    };
+    private final static TypeReference<List<RepetitionDTO>> repDtoRef = new TypeReference<>() {
+    };
+
     @MockBean
     private VocabularyService service;
     @Autowired
@@ -51,9 +56,9 @@ public class VocabularyControllerTest extends JsonSupport {
 
     @WithMockUser
     @Test
-    public void getList() throws Exception {
-        var src = getDataFromJsonFileSource("getList/service.json", selectionRef);
-        when(service.getSelectionsList()).thenReturn(src);
+    public void getSelectionList() throws Exception {
+        var src = getDataFromJsonFileSource("getSelectionList/service.json", vsEntityRef);
+        when(service.getSelectionList()).thenReturn(src);
         var result = mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/vocabulary")
                 .accept(MediaType.APPLICATION_JSON)
@@ -61,9 +66,9 @@ public class VocabularyControllerTest extends JsonSupport {
                 .with(csrf()))
                 .andExpect(status().isOk())
                 .andReturn();
-        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), dtoRef);
-        verify(service).getSelectionsList();
-        var expected = getDataFromJsonFileSource("getList/expected.json", dtoRef);
+        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), vsDtoRef);
+        verify(service).getSelectionList();
+        var expected = getDataFromJsonFileSource("getSelectionList/expected.json", vsDtoRef);
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
@@ -136,6 +141,24 @@ public class VocabularyControllerTest extends JsonSupport {
         );
     }
 
+
+    @WithMockUser
+    @Test
+    public void getRepetitionList() throws Exception {
+        var src = getDataFromJsonFileSource("getRepetitionList/service.json", repEntityRef);
+        when(service.getRepetitionList(1L)).thenReturn(src);
+        var result = mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/vocabulary/1/repetition")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andReturn();
+        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), repDtoRef);
+        verify(service).getRepetitionList(1L);
+        var expected = getDataFromJsonFileSource("getRepetitionList/expected.json", repDtoRef);
+        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+    }
 
     @WithMockUser
     @Test

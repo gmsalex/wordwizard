@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {switchMap} from "rxjs/operators";
-import {UserAuthRequest, UserAuthSuccessResponse} from "../store/definition/user-auth.definition";
 import {Observable} from "rxjs";
+import {UserAuthRequest, UserAuthSuccessResponse} from "../model/definition/user-auth.definition";
 
 @Injectable({
   providedIn: 'root'

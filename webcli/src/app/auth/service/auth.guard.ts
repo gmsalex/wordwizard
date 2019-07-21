@@ -9,7 +9,7 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private store: Store<fromAuth.State>) {
+  constructor(private store: Store<fromAuth.AppStateAuthModule>) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

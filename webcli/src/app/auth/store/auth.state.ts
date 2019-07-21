@@ -1,9 +1,9 @@
-import {WWUserDetails} from "./definition/user.definition";
 import {AppRootState} from "../../app-store/app-root.state";
 import {createFeatureSelector, createSelector} from "@ngrx/store";
+import {WWUserDetails} from "../model/definition/user.definition";
 
-export interface State extends AppRootState {
-  user: AuthState
+export interface AppStateAuthModule extends AppRootState {
+  auth: AuthState
 }
 
 export interface AuthState {
@@ -16,5 +16,5 @@ export const AUTH_INITIAL_STATE: AuthState = {
   authenticated: false
 };
 
-const selectAuthState = createFeatureSelector<State, AuthState>('user');
+const selectAuthState = createFeatureSelector<AppStateAuthModule, AuthState>('auth');
 export const isAuthenticated = createSelector(selectAuthState, v => v.authenticated);

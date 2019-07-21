@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <button (click)="sidenav.toggle()" mat-icon-button type="button">
+    <mat-icon class="material-icons mat-light">menu</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav">
+  <mat-sidenav #sidenav class="sidenav_menu" [ngClass.gt-md]="{'sidenav_wide': true}"></mat-sidenav>
+  <mat-sidenav-content class="sidenav-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

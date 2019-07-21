@@ -12,7 +12,6 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -31,9 +30,6 @@ public class VocabularyEntry {
     @Basic(optional = false)
     @Column(length = 3)
     private String language;
-    @NotNull
-    @Basic(optional = false)
-    private LocalDateTime created;
     @OneToMany(mappedBy = "entry", cascade = CascadeType.REMOVE)
     private List<Repetition> repetitions;
     @NotNull
@@ -45,9 +41,4 @@ public class VocabularyEntry {
     @NotNull
     @ManyToOne(optional = false)
     private User user;
-
-    @PrePersist
-    public void prePersist() {
-        this.created = LocalDateTime.now();
-    }
 }

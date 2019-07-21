@@ -12,6 +12,7 @@ import me.wordwizard.backend.security.auth.util.AuthUtil;
 import me.wordwizard.backend.security.auth.util.InMemoryUserDetails;
 import me.wordwizard.backend.security.auth.util.JsonSupport;
 import me.wordwizard.backend.service.repository.RepetitionRepository;
+import me.wordwizard.backend.service.repository.TestRepetitionRepository;
 import me.wordwizard.backend.service.repository.VocabularyEntryRepository;
 import me.wordwizard.backend.service.repository.VocabularySelectionRepository;
 import org.flywaydb.test.annotation.FlywayTest;
@@ -54,6 +55,8 @@ public class VocabularyServiceTest extends JsonSupport {
     private VocabularyEntryRepository veRepository;
     @Autowired
     private RepetitionRepository repRepository;
+    @Autowired
+    private TestRepetitionRepository testRepRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -62,8 +65,8 @@ public class VocabularyServiceTest extends JsonSupport {
     @FlywayTest(locationsForMigrate = {"/db/migration", "/VocabularyServiceTest/db/base"})
     @WithUserDetails("test@gmail.com")
     @Test
-    public void getSelectionsList() {
-        assertThat(service.getSelectionsList())
+    public void getSelectionList() {
+        assertThat(service.getSelectionList())
                 .hasSize(1)
                 .first()
                 .extracting(v -> tuple(v.getName(), v.getUser().getId()))
@@ -71,11 +74,21 @@ public class VocabularyServiceTest extends JsonSupport {
                 .isEqualTo(tuple("Good", 100L));
     }
 
+    @FlywayTest(locationsForMigrate = {"/db/migration", "/VocabularyServiceTest/db/base", "/VocabularyServiceTest/db/repetition/remove"})
+    @WithUserDetails("test@gmail.com")
+    @Test
+    public void getRepetitionList() {
+        assertThat(service.getRepetitionList(101))
+                .hasSize(2)
+                .extracting(Repetition::getId)
+                .containsExactlyInAnyOrder(3L, 1L);
+    }
+
     @FlywayTest(locationsForMigrate = {"/db/migration", "/VocabularyServiceTest/db/base"})
     @WithUserDetails(value = "noselection@gmail.com")
     @Test
     public void getSelectionListEmptyResult() {
-        assertThat(service.getSelectionsList()).hasSize(0);
+        assertThat(service.getSelectionList()).hasSize(0);
     }
 
     @FlywayTest(locationsForMigrate = {"/db/migration", "/VocabularyServiceTest/db/base"})
@@ -140,10 +153,10 @@ public class VocabularyServiceTest extends JsonSupport {
     @WithUserDetails("test@gmail.com")
     @Test
     public void addRepetition() {
-        assertThat(repRepository.findBySelectionId(101)).isEmpty();
+        assertThat(testRepRepository.findBySelectionId(101)).isEmpty();
         service.addRepetition(101, ImmutableSet.of(100L, 101L));
 
-        assertThat(repRepository.findBySelectionId(101))
+        assertThat(testRepRepository.findBySelectionId(101))
                 .extracting(v -> tuple(v.getEntry().getId(), v.getSelection().getId()))
                 .as("entry_id/selection_id")
                 .containsExactlyInAnyOrder(tuple(100L, 101L), tuple(101L, 101L));
@@ -153,7 +166,7 @@ public class VocabularyServiceTest extends JsonSupport {
     @WithUserDetails("test@gmail.com")
     @Test(expected = IllegalArgumentException.class)
     public void addRepetitionUnknownVeId() {
-        assertThat(repRepository.findBySelectionId(101)).isEmpty();
+        assertThat(testRepRepository.findBySelectionId(101)).isEmpty();
         service.addRepetition(101, ImmutableSet.of(-1L));
     }
 
@@ -169,7 +182,7 @@ public class VocabularyServiceTest extends JsonSupport {
     @Test
     public void addRepetitionSkipAlreadyCreated() {
         repRepository.save(new Repetition(veRepository.getOne(100L), vsRepository.getOne(101L)));
-        assertThat(repRepository.findBySelectionId(101))
+        assertThat(testRepRepository.findBySelectionId(101))
                 .hasSize(1)
                 .extracting(v -> tuple(v.getEntry().getId(), v.getSelection().getId()))
                 .as("entry_id/selection_id")
@@ -177,7 +190,7 @@ public class VocabularyServiceTest extends JsonSupport {
 
         service.addRepetition(101, ImmutableSet.of(100L, 101L));
 
-        assertThat(repRepository.findBySelectionId(101))
+        assertThat(testRepRepository.findBySelectionId(101))
                 .hasSize(2)
                 .extracting(v -> tuple(v.getEntry().getId(), v.getSelection().getId()))
                 .as("entry_id/selection_id")
@@ -193,7 +206,7 @@ public class VocabularyServiceTest extends JsonSupport {
                 .get()
                 .extracting(v -> tuple(v.getEntry().getId(), v.getSelection().getId()))
                 .as("entry_id/selection_id")
-                .isEqualTo(tuple(100L, 101L));
+                .isEqualTo(tuple(102L, 101L));
 
         service.removeRepetition(ImmutableSet.of(3L));
         assertThat(veRepository.findById(100L)).isPresent();
@@ -224,7 +237,7 @@ public class VocabularyServiceTest extends JsonSupport {
         assertThat(veRepository.findAll()).isNotEmpty();
         assertThat(repRepository.findAll()).isNotEmpty();
 
-        service.removeEntry(ImmutableSet.of(100L, 101L));
+        service.removeEntry(ImmutableSet.of(100L, 101L, 102L));
 
         assertThat(veRepository.findAll()).isEmpty();
         assertThat(repRepository.findAll()).isEmpty();

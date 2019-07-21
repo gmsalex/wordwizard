@@ -17,7 +17,7 @@ import {AuthEffects} from "./store/auth.effects";
     AppMaterialModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    StoreModule.forFeature('user', AUTH_REDUCER),
+    StoreModule.forFeature('auth', AUTH_REDUCER),
     EffectsModule.forFeature([AuthEffects]),
     RouterModule.forChild([
       {path: '', 'component': LoginComponent},

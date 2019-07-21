@@ -5,8 +5,8 @@ import {catchError, exhaustMap, switchMap, tap} from "rxjs/operators";
 import {of} from "rxjs";
 import {AuthService} from "../service/auth.service";
 import {Action} from "typescript-fsa";
-import {UserAuthRequest} from "./definition/user-auth.definition";
 import {Router} from "@angular/router";
+import {UserAuthRequest} from "../model/definition/user-auth.definition";
 
 @Injectable()
 export class AuthEffects {

@@ -1,9 +1,10 @@
 insert into "VocabularySelection" (id, name, user_id) values (101, 'VS 100', 100);
 insert into "VocabularySelection" (id, name, user_id) values (102, 'VS 100', 100);
 
-insert into "VocabularyEntry" (meta, created, language, term, user_id, id) values ('{"translations": ["how are you?"]}', '2019-04-01 00:00:00', 'fr', 'ça va?', 100, 100);
-insert into "VocabularyEntry" (meta, created, language, term, user_id, id) values ('{"translations": ["ça va?"]}', '2019-04-01 00:00:00', 'en','how are you?', 100, 101);
+insert into "VocabularyEntry" (id, meta, language, term, user_id) values (100, '{"translations": [{"translation": "how are you?"}]}', 'fr', 'ça va?', 100);
+insert into "VocabularyEntry" (id, meta, language, term, user_id) values (101, '{"translations": [{"translation": "ça va?"}]}', 'en','how are you?', 100);
+insert into "VocabularyEntry" (id, meta, language, term, user_id) values (102, '{"translations": [{"translation": "salut"}]}', 'en','hi', 100);
 
-insert into "Repetition" (entry_id, selection_id, id) values (100, 101, 1);
-insert into "Repetition" (entry_id, selection_id, id) values (101, 102, 2);
-insert into "Repetition" (entry_id, selection_id, id) values (100, 101, 3);
+insert into "Repetition" (id, entry_id, selection_id, created) values (1, 100, 101, '2019-04-01 00:00:00');
+insert into "Repetition" (id, entry_id, selection_id, created) values (2, 101, 102, '2019-04-02 00:00:00');
+insert into "Repetition" (id, entry_id, selection_id, created) values (3, 102, 101, '2019-04-03 00:00:00');
