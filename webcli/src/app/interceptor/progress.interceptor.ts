@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {HttpEvent, HttpHandler, HttpRequest, HttpResponse} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
-import {ProgressService} from "../app-material/service/progress.service";
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpRequest, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {ProgressService} from '../app-material/service/progress.service';
 
 @Injectable()
 export class ProgressInterceptor {

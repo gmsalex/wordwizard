@@ -1,4 +1,4 @@
 export interface WWUserDetails {
-  readonly name: string
+  readonly name: string;
 }
 

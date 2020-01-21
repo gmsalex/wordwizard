@@ -3,6 +3,7 @@ package me.wordwizard.backend.helper;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,5 +28,11 @@ public class LanguageUtilTest {
     public void getUnknownLocale() {
         assertThat(languageUtil.getLocale("unknown")).isNull();
         assertThat(languageUtil.getLocale(null)).isNull();
+    }
+
+    @Test
+    public void getLanguages() {
+        var language = languageUtil.getLanguageList().stream().filter(v -> "fr".equals(v.getCode())).findFirst();
+        assertThat(language).isPresent().get().extracting("code", "name", "nativeName").isEqualTo(Arrays.asList("fr", "French", "français"));
     }
 }

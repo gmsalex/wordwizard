@@ -1,5 +1,5 @@
-import {InjectionToken} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {InjectionToken} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as XRegExp from 'xregexp';
 
 

@@ -6,9 +6,11 @@ import me.wordwizard.backend.api.model.vocabulary.entry.VEAssociateDTO;
 import me.wordwizard.backend.api.model.vocabulary.entry.VEDisAssociateDTO;
 import me.wordwizard.backend.api.model.vocabulary.entry.VERemovalDTO;
 import me.wordwizard.backend.api.model.vocabulary.entry.VocabularyEntryDTO;
+import me.wordwizard.backend.api.model.vocabulary.language.LanguageDTO;
 import me.wordwizard.backend.api.model.vocabulary.repetition.RepetitionDTO;
 import me.wordwizard.backend.api.model.vocabulary.selection.VSCreationDTO;
 import me.wordwizard.backend.api.model.vocabulary.selection.VocabularySelectionDTO;
+import me.wordwizard.backend.helper.LanguageUtil;
 import me.wordwizard.backend.model.entity.vocabulary.Repetition;
 import me.wordwizard.backend.model.entity.vocabulary.VocabularySelection;
 import me.wordwizard.backend.security.auth.util.JsonSupport;
@@ -25,6 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +51,11 @@ public class VocabularyControllerTest extends JsonSupport {
     };
     private final static TypeReference<List<RepetitionDTO>> repDtoRef = new TypeReference<>() {
     };
+    private final static TypeReference<List<LanguageDTO>> languageDtoRef = new TypeReference<>() {
+    };
 
+    @MockBean
+    private LanguageUtil languageUtil;
     @MockBean
     private VocabularyService service;
     @Autowired
@@ -210,6 +217,25 @@ public class VocabularyControllerTest extends JsonSupport {
                 .andExpect(status().isOk());
 
         verify(service).removeEntry(argsExpected.getVeIds());
+    }
+
+
+    @WithMockUser
+    @Test
+    public void getLanguages() throws Exception {
+        List<LanguageDTO> languageList = Arrays.asList(new LanguageDTO("TEST_CODE", "TEST_NAME", "TEST NATIVE NAME"));
+        when(languageUtil.getLanguageList()).thenReturn(languageList);
+
+        var result = mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/vocabulary/languages")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andReturn();
+        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), languageDtoRef);
+        assertThat(actual).isEqualToComparingFieldByFieldRecursively(languageList);
+        verify(languageUtil).getLanguageList();
     }
 
 }

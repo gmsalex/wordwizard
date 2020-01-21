@@ -1,5 +1,5 @@
-import {InjectionToken} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {InjectionToken} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 
 export const TERM_TRANSLATION_FORM = new InjectionToken<FormGroup>('Term translation form');

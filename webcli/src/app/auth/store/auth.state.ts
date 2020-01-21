@@ -1,9 +1,9 @@
-import {AppRootState} from "../../app-store/app-root.state";
-import {createFeatureSelector, createSelector} from "@ngrx/store";
-import {WWUserDetails} from "../model/definition/user.definition";
+import {AppRootState} from '../../app-store/app-root.state';
+import {createFeatureSelector, createSelector} from '@ngrx/store';
+import {WWUserDetails} from '../model/definition/user.definition';
 
 export interface AppStateAuthModule extends AppRootState {
-  auth: AuthState
+  auth: AuthState;
 }
 
 export interface AuthState {

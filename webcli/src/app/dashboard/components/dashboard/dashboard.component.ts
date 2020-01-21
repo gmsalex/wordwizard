@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {VS_LIST_ACTION} from "../../../vocabulary/store/vocabulary.action";
-import {Store} from "@ngrx/store";
-import * as fromVocabulary from "../../../vocabulary/store/vocabulary.state";
+import {VS_LIST_ACTION} from '../../../vocabulary/store/vocabulary.action';
+import {Store} from '@ngrx/store';
+import * as fromVocabulary from '../../../vocabulary/store/vocabulary.state';
 
 @Component({
   templateUrl: './dashboard.component.html',

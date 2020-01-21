@@ -1,5 +1,5 @@
-import {InjectionToken} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {InjectionToken} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 export const SIGN_IN_FORM = new InjectionToken<FormGroup>('Sign in Form');
 

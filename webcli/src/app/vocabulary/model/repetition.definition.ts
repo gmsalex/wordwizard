@@ -1,7 +1,7 @@
-import {VocabularyEntryDTO} from "./vocabulary-entry.definition";
+import {VocabularyEntryDTO} from './vocabulary-entry.definition';
 
 export interface RepetitionDTO {
-  readonly id: number,
+  readonly id: number;
   readonly created: string;
   readonly entry: VocabularyEntryDTO;
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Translation {
+public class Example {
     private String value;
-    private List<Example> examples;
+    private List<String> hiddenWords;
 }

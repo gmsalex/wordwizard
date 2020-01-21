@@ -1,7 +1,8 @@
-import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {RepetitionDTO} from "../model/repetition.definition";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {RepetitionDTO} from '../model/repetition.definition';
+import {VECreationWrapper} from '../model/vocabulary-entry.definition';
 
 @Injectable()
 export class VocabularyService {
@@ -9,22 +10,26 @@ export class VocabularyService {
   }
 
   listVs(): Observable<VocabularySelectionDTO[]> {
-    return <Observable<VocabularySelectionDTO[]>>this.http.get('/vocabulary', {
+    return this.http.get('/vocabulary', {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })
-    });
+    }) as Observable<VocabularySelectionDTO[]>;
   }
 
   createVs(vs: VSCreationDTO): Observable<VocabularySelectionDTO> {
-    return <Observable<VocabularySelectionDTO>>this.http.post('/vocabulary', vs);
+    return this.http.post('/vocabulary', vs) as Observable<VocabularySelectionDTO>;
+  }
+
+  createVe(veWrapper: VECreationWrapper): Observable<RepetitionDTO> {
+    return this.http.post('/vocabulary/' + veWrapper.vsId + '/entry', veWrapper.ve) as Observable<RepetitionDTO>;
   }
 
   listRepetition(vsId: number) {
-    return <Observable<RepetitionDTO[]>>this.http.get('/vocabulary/' + vsId + '/repetition', {
+    return this.http.get('/vocabulary/' + vsId + '/repetition', {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
-    });
+    }) as Observable<RepetitionDTO[]>;
   }
 }

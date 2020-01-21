@@ -4,9 +4,11 @@ import me.wordwizard.backend.api.model.vocabulary.entry.VEAssociateDTO;
 import me.wordwizard.backend.api.model.vocabulary.entry.VEDisAssociateDTO;
 import me.wordwizard.backend.api.model.vocabulary.entry.VERemovalDTO;
 import me.wordwizard.backend.api.model.vocabulary.entry.VocabularyEntryDTO;
+import me.wordwizard.backend.api.model.vocabulary.language.LanguageDTO;
 import me.wordwizard.backend.api.model.vocabulary.repetition.RepetitionDTO;
 import me.wordwizard.backend.api.model.vocabulary.selection.VSCreationDTO;
 import me.wordwizard.backend.api.model.vocabulary.selection.VocabularySelectionDTO;
+import me.wordwizard.backend.helper.LanguageUtil;
 import me.wordwizard.backend.service.VocabularyService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -30,11 +32,13 @@ import static me.wordwizard.backend.api.mapper.MappingConfiguration.TO_API_MAPPE
 @Validated
 public class VocabularyController {
     private final VocabularyService service;
+    private final LanguageUtil languageUtil;
     private final ModelMapper mapper;
 
     @Autowired
-    public VocabularyController(VocabularyService service, @Qualifier(TO_API_MAPPER) ModelMapper mapper) {
+    public VocabularyController(VocabularyService service, LanguageUtil languageUtil, @Qualifier(TO_API_MAPPER) ModelMapper mapper) {
         this.service = service;
+        this.languageUtil = languageUtil;
         this.mapper = mapper;
     }
 
@@ -75,5 +79,10 @@ public class VocabularyController {
     @DeleteMapping(value = "/entry")
     public void removeEntry(@RequestBody @Valid VERemovalDTO dto) {
         service.removeEntry(dto.getVeIds());
+    }
+
+    @GetMapping(value = "/languages")
+    public List<LanguageDTO> getLanguages() {
+        return languageUtil.getLanguageList();
     }
 }

@@ -1,4 +1,4 @@
-import {RepetitionDTO} from "./repetition.definition";
+import {RepetitionDTO} from './repetition.definition';
 
 export interface VocabularySelectionView {
   readonly vs: VocabularySelectionDTO;

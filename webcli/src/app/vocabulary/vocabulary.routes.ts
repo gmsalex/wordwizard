@@ -1,8 +1,8 @@
-import {Routes} from "@angular/router";
-import {VocabularyComponent} from "./components/vocabulary/vocabulary.component";
-import {ListVocabularySelectionComponent} from "./components/list-vocabulary-selection/list-vocabulary-selection.component";
-import {ViewVocabularySelectionComponent} from "./components/view-vocabulary-selection/view-vocabulary-selection.component";
-import {VocabularySelectionViewGuard} from "./service/vocabulary-selection-view.guard";
+import {Routes} from '@angular/router';
+import {VocabularyComponent} from './components/vocabulary/vocabulary.component';
+import {ListVocabularySelectionComponent} from './components/list-vocabulary-selection/list-vocabulary-selection.component';
+import {ViewVocabularySelectionComponent} from './components/view-vocabulary-selection/view-vocabulary-selection.component';
+import {VocabularySelectionViewGuard} from './service/vocabulary-selection-view.guard';
 
 export const vocabularyRoutes: Routes = [
   {

@@ -1,12 +1,12 @@
-import {Injectable} from "@angular/core";
-import {Actions, Effect, ofType} from "@ngrx/effects";
-import {LOGIN_ACTION} from "./auth.action";
-import {catchError, exhaustMap, switchMap, tap} from "rxjs/operators";
-import {of} from "rxjs";
-import {AuthService} from "../service/auth.service";
-import {Action} from "typescript-fsa";
-import {Router} from "@angular/router";
-import {UserAuthRequest} from "../model/definition/user-auth.definition";
+import {Injectable} from '@angular/core';
+import {Actions, Effect, ofType} from '@ngrx/effects';
+import {LOGIN_ACTION} from './auth.action';
+import {catchError, exhaustMap, switchMap, tap} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {AuthService} from '../service/auth.service';
+import {Action} from 'typescript-fsa';
+import {Router} from '@angular/router';
+import {UserAuthRequest} from '../model/definition/user-auth.definition';
 
 @Injectable()
 export class AuthEffects {

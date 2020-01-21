@@ -1,9 +1,9 @@
 import {Component, Inject} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {buildSignInForm, SIGN_IN_FORM} from "./form/sign-in.form";
-import {Store} from "@ngrx/store";
-import * as fromAuth from "../store/auth.state";
-import {LOGIN_ACTION} from "../store/auth.action";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {buildSignInForm, SIGN_IN_FORM} from './form/sign-in.form';
+import {Store} from '@ngrx/store';
+import * as fromAuth from '../store/auth.state';
+import {LOGIN_ACTION} from '../store/auth.action';
 
 @Component({
   templateUrl: './login.component.html',

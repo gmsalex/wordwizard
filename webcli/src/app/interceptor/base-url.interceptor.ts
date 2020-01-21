@@ -1,6 +1,6 @@
-import {Inject, Injectable, InjectionToken} from "@angular/core";
-import {HttpEvent, HttpHandler, HttpRequest} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Inject, Injectable, InjectionToken} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpRequest} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 export const BASE_URL = new InjectionToken<string>('Base URL');
 

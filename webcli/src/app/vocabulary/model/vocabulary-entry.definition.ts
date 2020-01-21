@@ -1,4 +1,4 @@
-import {MetaData} from "./meta-data.definition";
+import {MetaData} from './meta-data.definition';
 
 export interface VocabularyEntryDTO {
   readonly id: number;
@@ -7,3 +7,7 @@ export interface VocabularyEntryDTO {
   readonly meta: MetaData;
 }
 
+export interface VECreationWrapper {
+  readonly vsId: number;
+  readonly ve: VocabularyEntryDTO;
+}

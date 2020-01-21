@@ -33,14 +33,14 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule
-} from "@angular/material";
-import {FlexLayoutModule} from "@angular/flex-layout";
-import {ProgressDialog} from "./dialog/progress.dialog";
-import {ProgressService} from "./service/progress.service";
+} from '@angular/material';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ProgressComponent} from './dialog/progress.component';
+import {ProgressService} from './service/progress.service';
 
 @NgModule({
-  declarations: [ProgressDialog],
-  entryComponents: [ProgressDialog],
+  declarations: [ProgressComponent],
+  entryComponents: [ProgressComponent],
   providers: [ProgressService],
   imports: [
     CommonModule,

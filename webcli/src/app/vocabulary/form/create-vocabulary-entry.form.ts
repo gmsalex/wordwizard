@@ -1,81 +1,74 @@
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-
-export function buildVeForm(fb: FormBuilder) {
-  return new VeForm(fb);
-}
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {createTranslation} from '../model/meta-data.implementation';
+import {TranslationEdit} from '../model/meta-data.definition';
+import {LanguageService} from '../service/language.service';
+import {VocabularyEntryDTO} from '../model/vocabulary-entry.definition';
 
 export class VeForm {
-  private readonly _form: FormGroup = this.fb.group({
-    term: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(512)])],
-    language: [null],
-    meta: this.fb.group({
-      translations: this.fb.array([])
-    })
-  });
-  private readonly _translations: VeTranslation[] = [];
+  private readonly translations: TranslationEdit[] = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private languageService: LanguageService) {
   }
 
-  get form() {
-    return this._form;
+  getLanguage() {
+    return this.form.controls.language;
+  }
+
+  getForm() {
+    return this.form;
   }
 
   addTranslation(value: string) {
-    const group = this.initTranslationFormGroup(value);
-    this._translations.push(new VeTranslation(group));
-    (<FormArray>this._form.get('meta.translations'))
-      .push(group);
-  }
-
-  removeTranslation(index: number) {
-    (<FormArray>this._form.get('meta.translations')).removeAt(index);
-    this._translations.splice(index, 1);
-  }
-
-  mergeTranslationToExamples(index: number) {
-    if (index > 0) {
-      const translations = (<FormArray>this._form.get('meta.translations'));
-      const dst: FormGroup = <FormGroup>translations.at(index - 1);
-      const example = (<FormGroup>translations.at(index)).controls.translation.value;
-      this.removeTranslation(index);
-      (<FormArray>dst.controls.examples).push(new FormControl(example));
+    if (value) {
+      this.translations.push(createTranslation(value));
     }
   }
 
-  translations(): VeTranslation[] {
-    return this._translations;
+  removeTranslation(index: number) {
+    this.translations.splice(index, 1);
+  }
+
+  mergeTranslationToExamples(index: number) {
+    if (index > 0 && index < this.translations.length) {
+      const dst: TranslationEdit = this.translations[index - 1];
+      const src: TranslationEdit = this.translations[index];
+      const example = src.value;
+      dst.addExample(example);
+      this.removeTranslation(index);
+    }
+  }
+
+  getTranslations(): TranslationEdit[] {
+    return this.translations;
   }
 
   reset() {
-    this._form.reset();
+    this.form.reset();
+    this.resetTranslations();
   }
 
-  private initTranslationFormGroup(value: string): FormGroup {
-    return this.fb.group({
-      translation: [value],
-      examples: this.fb.array([])
-    })
+  resetTranslations() {
+    this.translations.length = 0;
   }
+
+  buildVocabularyEntry(): VocabularyEntryDTO {
+    return {...this.form.value as VocabularyEntryDTO, meta: {translations: this.translations}};
+  }
+
+  private readonly languageValidator = (control: AbstractControl): ValidationErrors | null =>
+    this.languageService.getLanguage(control.value) ? null : {error: 'error'};
+
+  private readonly translationValidator = (control: AbstractControl): ValidationErrors | null =>
+    this.translations.length > 0 && this.translations.length < 32 ? null : {error: 'error'};
+
+  private readonly form: FormGroup = this.fb.group({
+    term: [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(512)])],
+    language: [null, Validators.compose([Validators.required, this.languageValidator])],
+  }, {
+    validators: this.translationValidator
+  });
 }
 
-export class VeTranslation {
-  _translation: AbstractControl = this._form.get('translation');
-
-  constructor(private _form: FormGroup) {
-  }
-
-  _examples: FormArray = <FormArray>this._form.get('examples');
-
-  get examples(): AbstractControl[] {
-    return this._examples.controls;
-  }
-
-  get value() {
-    return this._translation.value;
-  }
-
-  removeExample(index: number) {
-    this._examples.removeAt(index);
-  }
+export function buildVeForm(fb: FormBuilder, languageService: LanguageService) {
+  return new VeForm(fb, languageService);
 }
