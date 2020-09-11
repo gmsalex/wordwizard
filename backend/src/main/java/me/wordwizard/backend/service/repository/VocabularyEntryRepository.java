@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 @Repository
 public interface VocabularyEntryRepository extends JpaRepository<VocabularyEntry, Long> {
-    Integer countByIdInAndUserId(Set<Long> ids, long userId);
-
     Stream<VocabularyEntry> findAllByIdInAndUserId(Set<Long> veIds, long userId);
+
+    Stream<VocabularyEntry> findAllByUserId(long userId);
 }

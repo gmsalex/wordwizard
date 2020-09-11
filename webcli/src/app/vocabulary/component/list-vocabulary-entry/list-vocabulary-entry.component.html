@@ -1,0 +1,8 @@
+<div fxFlex="row" fxLayoutAlign="center start">
+    <div class="container" fxLayout="column" fxLayoutAlign="start center">
+        <add-vocabulary-entry (veSave)="onVeSave($event)" [tagsAvailable]="tagList"></add-vocabulary-entry>
+        <mat-card *ngFor="let ve of veList | async">
+            <mat-card-title>{{ ve.term }}</mat-card-title>
+        </mat-card>
+    </div>
+</div>

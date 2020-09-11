@@ -1,0 +1,22 @@
+{
+  "veList": [
+    {
+      "id": 1,
+      "term": "ça va?",
+      "language": "fr",
+      "meta": {
+        "usages": [
+          {
+            "value": "how are you?"
+          }
+        ]
+      }
+    }
+  ],
+  "tagList": [
+    {
+      "id": 1,
+      "name": "Grammar"
+    }
+  ]
+}

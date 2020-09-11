@@ -2,11 +2,11 @@ import {InjectionToken} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 
-export const TERM_TRANSLATION_FORM = new InjectionToken<FormGroup>('Term translation form');
+export const TERM_USAGE_FORM = new InjectionToken<FormGroup>('Term usage form');
 
-export function buildTranslationForm(fb: FormBuilder) {
+export function buildUsageForm(fb: FormBuilder) {
   return fb.group({
-    translation: [null, Validators.compose([Validators.required, Validators.minLength(1)])],
+    usage: [null, Validators.compose([Validators.required, Validators.minLength(1)])],
   });
 }
 

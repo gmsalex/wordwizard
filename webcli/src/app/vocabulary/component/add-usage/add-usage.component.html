@@ -1,0 +1,16 @@
+<form [formGroup]="form">
+  <mat-form-field fxFlex="50%">
+    <mat-label>Add usages (multiple usages will added using a newline as a separator)</mat-label>
+    <textarea cdkAutosizeMaxRows="10"
+              cdkAutosizeMinRows="2"
+              cdkTextareaAutosize
+              formControlName="usage"
+              matInput></textarea>
+  </mat-form-field>
+  <button (click)="parse()" [disabled]="!form.valid" class="button_with_icon"
+          mat-fab
+          type="button">
+    <mat-icon>add</mat-icon>
+  </button>
+</form>
+

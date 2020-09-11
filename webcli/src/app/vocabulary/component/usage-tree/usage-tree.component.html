@@ -1,0 +1,33 @@
+<mat-list (textSelection)="onTextSelection($event)" textselection>
+    <ng-container *ngFor="let usage of usageDb.data | async;  let i = index; let first = first;">
+        <mat-list-item>
+            <button (click)="usageDb.removeUsage(i)" class="button_with_icon" mat-icon-button
+                    type="button">
+                <mat-icon class="material-icons">remove_circle_outline</mat-icon>
+            </button>
+            <button (click)="usageDb.mergeUsageToExamples(i)" *ngIf="!first" class="button_with_icon" mat-icon-button
+                    type="button">
+                <mat-icon class="material-icons">link</mat-icon>
+            </button>
+            <span>{{ usage.getValue() }}</span>
+        </mat-list-item>
+        <mat-list style="margin-left:40px;">
+            <mat-list-item *ngFor="let example of usage.getExamples(); let ti = index">
+                <button (click)="usage.removeExample(ti)" class="button_with_icon" mat-icon-button
+                        matTooltip="Remove"
+                        type="button">
+                    <mat-icon class="material-icons">remove_circle_outline</mat-icon>
+                </button>
+                <div>
+                    <span class="usage-example">{{ example.getValue() }}</span>
+                </div>
+                <button (click)="example.addHiddenWord(selectedText)" *ngIf="example.canBeHiddenWord(selectedText)"
+                        class="button_with_icon"
+                        mat-icon-button
+                        matTooltip="Add ({{ selectedText }}) to hidden words list" type="button">
+                    <mat-icon class="material-icons-outlined">speaker_notes</mat-icon>
+                </button>
+            </mat-list-item>
+        </mat-list>
+    </ng-container>
+</mat-list>

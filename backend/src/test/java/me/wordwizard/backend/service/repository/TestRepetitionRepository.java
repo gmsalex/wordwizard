@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TestRepetitionRepository extends JpaRepository<Repetition, Long> {
-    List<Repetition> findBySelectionId(long vsId);
+    List<Repetition> findByTagId(long tagId);
 }

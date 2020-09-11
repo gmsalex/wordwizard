@@ -1,14 +1,11 @@
 {
-  "selectionId": 100,
-  "entry": {
-    "term": "ça va?",
-    "language": "fr",
-    "meta": {
-      "translations": [
-        {
-          "translation": "how are you?"
-        }
-      ]
-    }
+  "term": "ça va?",
+  "language": "fr",
+  "meta": {
+    "usages": [
+      {
+        "value": "how are you?"
+      }
+    ]
   }
 }

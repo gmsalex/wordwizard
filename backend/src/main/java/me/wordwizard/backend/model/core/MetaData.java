@@ -8,5 +8,5 @@ import java.util.List;
 @Getter
 @Setter
 public class MetaData {
-    private List<Translation> translations;
+    private List<Usage> usages;
 }

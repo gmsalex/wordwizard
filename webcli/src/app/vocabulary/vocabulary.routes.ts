@@ -1,16 +1,13 @@
 import {Routes} from '@angular/router';
-import {VocabularyComponent} from './components/vocabulary/vocabulary.component';
-import {ListVocabularySelectionComponent} from './components/list-vocabulary-selection/list-vocabulary-selection.component';
-import {ViewVocabularySelectionComponent} from './components/view-vocabulary-selection/view-vocabulary-selection.component';
-import {VocabularySelectionViewGuard} from './service/vocabulary-selection-view.guard';
+import {VocabularyComponent} from './component/vocabulary/vocabulary.component';
+import {ListVocabularyEntryComponent} from './component/list-vocabulary-entry/list-vocabulary-entry.component';
 
 export const vocabularyRoutes: Routes = [
-  {
-    path: '',
-    component: VocabularyComponent,
-    children: [
-      {path: '', pathMatch: 'full', component: ListVocabularySelectionComponent},
-      {path: ':id', component: ViewVocabularySelectionComponent, canActivate: [VocabularySelectionViewGuard]},
-    ]
-  }
+    {
+        path: '',
+        component: VocabularyComponent,
+        children: [
+            {path: '', pathMatch: 'full', component: ListVocabularyEntryComponent},
+        ]
+    }
 ];

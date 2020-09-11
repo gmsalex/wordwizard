@@ -32,11 +32,13 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatTreeModule
 } from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ProgressComponent} from './dialog/progress.component';
 import {ProgressService} from './service/progress.service';
+import {CdkTreeModule} from '@angular/cdk/tree';
 
 @NgModule({
   declarations: [ProgressComponent],
@@ -80,7 +82,9 @@ import {ProgressService} from './service/progress.service';
     MatTooltipModule,
     MatStepperModule,
     FlexLayoutModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTreeModule,
+    CdkTreeModule
   ]
 })
 export class AppMaterialModule {

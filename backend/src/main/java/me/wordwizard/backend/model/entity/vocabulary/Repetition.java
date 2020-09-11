@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 
 @Entity
 @Getter
@@ -21,20 +21,15 @@ public class Repetition {
     @NotNull
     @ManyToOne(optional = false)
     private VocabularyEntry entry;
-    @NotNull
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private VocabularySelection selection;
-    @NotNull
-    @Basic(optional = false)
-    private LocalDateTime created;
+    @ManyToOne
+    private VocabularyTag tag;
 
-    public Repetition(@NotNull VocabularyEntry entry, @NotNull VocabularySelection selection) {
+    public Repetition(@NotNull VocabularyEntry entry) {
         this.entry = entry;
-        this.selection = selection;
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.created = ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime();
+    public Repetition(@NotNull VocabularyEntry entry, VocabularyTag tag) {
+        this.entry = entry;
+        this.tag = tag;
     }
 }

@@ -2,17 +2,11 @@ package me.wordwizard.backend.api.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
-import me.wordwizard.backend.api.model.vocabulary.entry.VEAssociateDTO;
-import me.wordwizard.backend.api.model.vocabulary.entry.VEDisAssociateDTO;
-import me.wordwizard.backend.api.model.vocabulary.entry.VERemovalDTO;
+import me.wordwizard.backend.api.model.vocabulary.entry.VERemoveDTO;
 import me.wordwizard.backend.api.model.vocabulary.entry.VocabularyEntryDTO;
+import me.wordwizard.backend.api.model.vocabulary.entry.VocabularySummaryDTO;
 import me.wordwizard.backend.api.model.vocabulary.language.LanguageDTO;
-import me.wordwizard.backend.api.model.vocabulary.repetition.RepetitionDTO;
-import me.wordwizard.backend.api.model.vocabulary.selection.VSCreationDTO;
-import me.wordwizard.backend.api.model.vocabulary.selection.VocabularySelectionDTO;
 import me.wordwizard.backend.helper.LanguageUtil;
-import me.wordwizard.backend.model.entity.vocabulary.Repetition;
-import me.wordwizard.backend.model.entity.vocabulary.VocabularySelection;
 import me.wordwizard.backend.security.auth.util.JsonSupport;
 import me.wordwizard.backend.service.VocabularyService;
 import org.junit.Test;
@@ -32,7 +26,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -43,14 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureEmbeddedDatabase
 @AutoConfigureMockMvc
 public class VocabularyControllerTest extends JsonSupport {
-    private final static TypeReference<List<VocabularySelectionDTO>> vsDtoRef = new TypeReference<>() {
-    };
-    private final static TypeReference<List<VocabularySelection>> vsEntityRef = new TypeReference<>() {
-    };
-    private final static TypeReference<List<Repetition>> repEntityRef = new TypeReference<>() {
-    };
-    private final static TypeReference<List<RepetitionDTO>> repDtoRef = new TypeReference<>() {
-    };
     private final static TypeReference<List<LanguageDTO>> languageDtoRef = new TypeReference<>() {
     };
 
@@ -61,34 +46,16 @@ public class VocabularyControllerTest extends JsonSupport {
     @Autowired
     private MockMvc mockMvc;
 
-    @WithMockUser
-    @Test
-    public void getSelectionList() throws Exception {
-        var src = getDataFromJsonFileSource("getSelectionList/service.json", vsEntityRef);
-        when(service.getSelectionList()).thenReturn(src);
-        var result = mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/vocabulary")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .with(csrf()))
-                .andExpect(status().isOk())
-                .andReturn();
-        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), vsDtoRef);
-        verify(service).getSelectionList();
-        var expected = getDataFromJsonFileSource("getSelectionList/expected.json", vsDtoRef);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
-    }
-
 
     @WithMockUser
     @Test
-    public void createVs() throws Exception {
-        var request = getJsonAsStringFromFileSource("createVs/request.json");
-        var argsExpected = objectMapper.readValue(request, VSCreationDTO.class);
-        var serviceResult = getDataFromJsonFileSource("createVs/serviceResult.json", VocabularySelection.class);
-        var expected = getDataFromJsonFileSource("createVs/response.json", VocabularySelectionDTO.class);
+    public void createEntry() throws Exception {
+        var request = getJsonAsStringFromFileSource("createEntry/request.json");
+        var argsExpected = objectMapper.readValue(request, VocabularyEntryDTO.class);
+        var serviceResult = getDataFromJsonFileSource("createEntry/serviceResult.json", VocabularyEntryDTO.class);
+        var responseExpected = getDataFromJsonFileSource("createEntry/response.json", VocabularyEntryDTO.class);
 
-        when(service.createSelection(
+        when(service.addEntry(
                 argThat(argsActual -> {
                     assertThat(argsActual).isEqualToComparingFieldByFieldRecursively(argsExpected);
                     return true;
@@ -104,43 +71,10 @@ public class VocabularyControllerTest extends JsonSupport {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), VocabularySelectionDTO.class);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
-
-        verify(service).createSelection(argThat(v -> {
-            assertThat(v).isEqualToComparingFieldByFieldRecursively(expected);
-            return true;
-        }));
-    }
-
-    @WithMockUser
-    @Test
-    public void createEntry() throws Exception {
-        var request = getJsonAsStringFromFileSource("createEntry/request.json");
-        var argsExpected = objectMapper.readValue(request, VocabularyEntryDTO.class);
-        var serviceResult = getDataFromJsonFileSource("createEntry/serviceResult.json", Repetition.class);
-        var responseExpected = getDataFromJsonFileSource("createEntry/response.json", RepetitionDTO.class);
-
-        when(service.addEntry(eq(1L),
-                argThat(argsActual -> {
-                    assertThat(argsActual).isEqualToComparingFieldByFieldRecursively(argsExpected);
-                    return true;
-                })
-        )).thenReturn(serviceResult);
-
-        var result = mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/vocabulary/1/entry")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request)
-                .with(csrf()))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), RepetitionDTO.class);
+        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), VocabularyEntryDTO.class);
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(responseExpected);
 
-        verify(service).addEntry(eq(1L),
+        verify(service).addEntry(
                 argThat(argsActual -> {
                     assertThat(actual).isEqualToComparingFieldByFieldRecursively(responseExpected);
                     return true;
@@ -148,68 +82,36 @@ public class VocabularyControllerTest extends JsonSupport {
         );
     }
 
-
     @WithMockUser
     @Test
-    public void getRepetitionList() throws Exception {
-        var src = getDataFromJsonFileSource("getRepetitionList/service.json", repEntityRef);
-        when(service.getRepetitionList(1L)).thenReturn(src);
+    public void getVocabularySummaryDTO() throws Exception {
+        var serviceResult = getDataFromJsonFileSource("getVocabularySummaryDTO/serviceResult.json", VocabularySummaryDTO.class);
+        var responseExpected = getDataFromJsonFileSource("getVocabularySummaryDTO/response.json", VocabularySummaryDTO.class);
+
+        when(service.getVocabularySummary()).thenReturn(serviceResult);
+
         var result = mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/vocabulary/1/repetition")
+                .get("/api/vocabulary")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(csrf()))
                 .andExpect(status().isOk())
                 .andReturn();
-        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), repDtoRef);
-        verify(service).getRepetitionList(1L);
-        var expected = getDataFromJsonFileSource("getRepetitionList/expected.json", repDtoRef);
-        assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
+
+        var actual = objectMapper.readValue(result.getResponse().getContentAsString(), VocabularySummaryDTO.class);
+        assertThat(actual).isEqualToComparingFieldByFieldRecursively(responseExpected);
+        verify(service).getVocabularySummary();
     }
 
-    @WithMockUser
-    @Test
-    public void addRepetition() throws Exception {
-        var request = getJsonAsStringFromFileSource("addRepetition/request.json");
-        var argsExpected = objectMapper.readValue(request, VEAssociateDTO.class);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/api/vocabulary/1/repetition")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request)
-                .with(csrf()))
-                .andExpect(status().isOk());
-
-        verify(service).addRepetition(1L, argsExpected.getVeIds());
-    }
-
-
-    @WithMockUser
-    @Test
-    public void removeRepetition() throws Exception {
-        var request = getJsonAsStringFromFileSource("removeRepetition/request.json");
-        var argsExpected = objectMapper.readValue(request, VEDisAssociateDTO.class);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/vocabulary/repetition")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(request)
-                .with(csrf()))
-                .andExpect(status().isOk());
-
-        verify(service).removeRepetition(argsExpected.getRepetitionIds());
-    }
 
     @WithMockUser
     @Test
     public void removeEntry() throws Exception {
         var request = getJsonAsStringFromFileSource("removeEntry/request.json");
-        var argsExpected = objectMapper.readValue(request, VERemovalDTO.class);
+        var argsExpected = objectMapper.readValue(request, VERemoveDTO.class);
 
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/vocabulary/entry")
+                .delete("/api/vocabulary")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(request)
@@ -235,6 +137,7 @@ public class VocabularyControllerTest extends JsonSupport {
                 .andReturn();
         var actual = objectMapper.readValue(result.getResponse().getContentAsString(), languageDtoRef);
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(languageList);
+
         verify(languageUtil).getLanguageList();
     }
 
